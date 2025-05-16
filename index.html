@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>旦增的个人主页</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Tibetan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#C71E24', // 藏红色
+            secondary: '#D4AF37', // 金色
+            accent: '#0F4C81', // 藏青色
+            light: '#F5F5F5',
+            dark: '#2D2A24'
+          },
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+            tibetan: ['Noto Sans Tibetan', 'sans-serif']
+          },
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .text-shadow-lg {
+        text-shadow: 0 4px 8px rgba(0,0,0,0.25);
+      }
+      .backdrop-blur {
+        backdrop-filter: blur(8px);
+      }
+      .transition-transform {
+        transition-property: transform;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 300ms;
+      }
+      .hover-scale {
+        @apply hover:scale-105 transition-all duration-300;
+      }
+      .bg-pattern {
+        background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%230f4c81' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+      }
+      .scroll-indicator {
+        animation: bounce 2s infinite;
+      }
+      @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-20px);
+        }
+        60% {
+          transform: translateY(-10px);
+        }
+      }
+    }
+  </style>
+</head>
+<body class="font-inter bg-light text-dark antialiased">
+  <!-- 导航栏 -->
+  <header id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300">
+    <nav class="bg-white/80 backdrop-blur shadow-md">
+      <div class="container mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
+        <a href="#" class="flex items-center space-x-2">
+          <span class="text-xl font-bold text-primary font-tibetan">བསྟན་འཛིན།</span>
+          <span class="text-xl font-bold text-primary">旦增</span>
+        </a>
+        
+        <!-- 桌面导航 -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="#about" class="font-medium hover:text-primary transition-colors">关于我</a>
+          <a href="#culture" class="font-medium hover:text-primary transition-colors">西藏文化</a>
+          <a href="#landscape" class="font-medium hover:text-primary transition-colors">家乡美景</a>
+          <a href="#story" class="font-medium hover:text-primary transition-colors">我的故事</a>
+          <a href="#contact" class="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-full transition-all hover:shadow-lg">联系我</a>
+        </div>
+        
+        <!-- 移动端菜单按钮 -->
+        <button id="menuBtn" class="md:hidden text-dark text-xl">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </nav>
+    
+    <!-- 移动端导航菜单 -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white shadow-lg absolute w-full">
+      <div class="container mx-auto px-4 py-3 flex flex-col space-y-4">
+        <a href="#about" class="font-medium hover:text-primary transition-colors py-2">关于我</a>
+        <a href="#culture" class="font-medium hover:text-primary transition-colors py-2">西藏文化</a>
+        <a href="#landscape" class="font-medium hover:text-primary transition-colors py-2">家乡美景</a>
+        <a href="#story" class="font-medium hover:text-primary transition-colors py-2">我的故事</a>
+        <a href="#contact" class="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-full text-center transition-all hover:shadow-lg">联系我</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 英雄区 -->
+    <section id="hero" class="relative h-screen flex items-center justify-center overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <img src="https://picsum.photos/id/1025/1920/1080" alt="西藏高原风光" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-dark/40"></div>
+      </div>
+      
+      <div class="container mx-auto px-4 z-10 text-center">
+        <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-bold text-white text-shadow-lg mb-4 leading-tight font-tibetan">
+          བསྟན་འཛིན།
+        </h1>
+        <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-bold text-white text-shadow-lg mb-6 leading-tight">
+          旦增
+        </h1>
+        <p class="text-[clamp(1rem,3vw,1.5rem)] text-white text-shadow max-w-3xl mx-auto mb-10">
+          西南民族大学 | 学号：2023308094447<br>
+          来自雪域高原的藏族青年
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <a href="#about" class="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-full text-lg font-medium transition-all hover:shadow-lg hover:shadow-primary/20 hover-scale">
+            了解更多
+          </a>
+          <a href="#story" class="bg-white/20 backdrop-blur hover:bg-white/30 text-white border border-white/30 px-8 py-3 rounded-full text-lg font-medium transition-all hover:shadow-lg hover-scale">
+            我的故事
+          </a>
+        </div>
+      </div>
+      
+      <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 scroll-indicator">
+        <a href="#about" class="text-white text-3xl">
+          <i class="fa-solid fa-chevron-down"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- 关于我 -->
+    <section id="about" class="py-20 bg-light">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div class="order-2 lg:order-1">
+            <span class="text-primary font-semibold">认识我</span>
+            <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold mt-2 mb-6">关于旦增</h2>
+            <p class="text-gray-600 mb-6 text-lg">
+              大家好，我是旦增，来自西藏拉萨，是西南民族大学2023级的学生。我的学号是2023308094447，目前在计算机科学与技术专业学习。
+            </p>
+            <p class="text-gray-600 mb-6 text-lg">
+              作为一名藏族青年，我深深热爱着自己的家乡和文化。我希望通过我的学习和经历，能够更好地传承和弘扬藏族文化，同时也希望能够与更多的人交流，增进大家对西藏的了解和认识。
+            </p>
+            <p class="text-gray-600 mb-8 text-lg">
+              在学校里，我积极参与各种社团活动，特别是与民族文化相关的活动。我也热衷于学习新知识，不断提升自己的技能和能力，希望将来能够为家乡的发展贡献自己的一份力量。
+            </p>
+            
+            <div class="grid grid-cols-2 gap-6 mb-8">
+              <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="text-primary text-3xl mb-4">
+                  <i class="fa-solid fa-user-graduate"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">西南民族大学</h3>
+                <p class="text-gray-600">计算机科学与技术</p>
+                <p class="text-gray-600 text-sm mt-2">2023级 | 学号：2023308094447</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="text-primary text-3xl mb-4">
+                  <i class="fa-solid fa-map-marker-alt"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">家乡</h3>
+                <p class="text-gray-600">西藏自治区拉萨市</p>
+                <p class="text-gray-600 text-sm mt-2">雪域高原，神圣之地</p>
+              </div>
+            </div>
+            
+            <div class="flex flex-wrap gap-4">
+              <span class="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">藏族文化</span>
+              <span class="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">计算机技术</span>
+              <span class="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">民族交流</span>
+              <span class="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">环境保护</span>
+              <span class="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">传统艺术</span>
+            </div>
+          </div>
+          
+          <div class="order-1 lg:order-2 relative">
+            <div class="relative z-10 rounded-xl overflow-hidden shadow-2xl hover-scale">
+              <!-- 替换为男性头像 -->
+              <img src="https://picsum.photos/id/1012/800/1000" alt="旦增照片" class="w-full h-auto">
+            </div>
+            <div class="absolute -bottom-6 -left-6 w-48 h-48 bg-primary/10 rounded-full z-0"></div>
+            <div class="absolute -top-6 -right-6 w-32 h-32 bg-secondary/10 rounded-full z-0"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 西藏文化 -->
+    <section id="culture" class="py-20 bg-white bg-pattern">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <span class="text-primary font-semibold">文化传承</span>
+          <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold mt-2 mb-6">西藏人文</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto text-lg">
+            西藏，这片神秘而圣洁的土地，孕育了独特而灿烂的文化。作为藏族儿女，我深感自豪能够传承和弘扬这份珍贵的文化遗产。
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- 藏传佛教 -->
+          <div class="bg-white rounded-xl overflow-hidden shadow-lg hover-scale group">
+            <div class="relative h-60 overflow-hidden">
+              <img src="https://picsum.photos/id/1031/800/600" alt="藏传佛教寺庙" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+              <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent"></div>
+              <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">藏传佛教</h3>
+            </div>
+            <div class="p-6">
+              <p class="text-gray-600 mb-4">
+                藏传佛教是西藏文化的核心，它不仅是一种宗教信仰，更是藏族人民的生活方式和精神寄托。寺庙遍布西藏各地，是修行和文化传承的重要场所。
+              </p>
+              <div class="flex items-center justify-between">
+                <span class="text-primary font-medium">精神信仰</span>
+                <a href="#" class="text-primary hover:text-primary/80 flex items-center gap-1">
+                  了解更多 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 传统艺术 -->
+          <div class="bg-white rounded-xl overflow-hidden shadow-lg hover-scale group">
+            <div class="relative h-60 overflow-hidden">
+              <img src="https://picsum.photos/id/1033/800/600" alt="唐卡艺术" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+              <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent"></div>
+              <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">传统艺术</h3>
+            </div>
+            <div class="p-6">
+              <p class="text-gray-600 mb-4">
+                藏族传统艺术丰富多彩，包括唐卡绘画、壁画、雕塑、藏戏等。这些艺术形式不仅具有极高的审美价值，还蕴含着深刻的宗教和哲学内涵。
+              </p>
+              <div class="flex items-center justify-between">
+                <span class="text-primary font-medium">文化瑰宝</span>
+                <a href="#" class="text-primary hover:text-primary/80 flex items-center gap-1">
+                  了解更多 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 节日庆典 -->
+          <div class="bg-white rounded-xl overflow-hidden shadow-lg hover-scale group">
+            <div class="relative h-60 overflow-hidden">
+              <img src="https://picsum.photos/id/1035/800/600" alt="西藏节日" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+              <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent"></div>
+              <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">节日庆典</h3>
+            </div>
+            <div class="p-6">
+              <p class="text-gray-600 mb-4">
+                藏族有许多传统节日，如藏历新年、雪顿节、望果节等。这些节日不仅是庆祝的时刻，更是展示藏族文化和传统的重要场合。
+              </p>
+              <div class="flex items-center justify-between">
+                <span class="text-primary font-medium">欢乐时刻</span>
+                <a href="#" class="text-primary hover:text-primary/80 flex items-center gap-1">
+                  了解更多 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 传统服饰 -->
+          <div class="bg-white rounded-xl overflow-hidden shadow-lg hover-scale group">
+            <div class="relative h-60 overflow-hidden">
+              <img src="https://picsum.photos/id/1036/800/600" alt="藏族传统服饰" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+              <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent"></div>
+              <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">传统服饰</h3>
+            </div>
+            <div class="p-6">
+              <p class="text-gray-600 mb-4">
+                藏族传统服饰色彩鲜艳，图案精美，不仅具有实用价值，更是身份和地位的象征。不同地区的服饰风格也有所不同，展示了藏族文化的多样性。
+              </p>
+              <div class="flex items-center justify-between">
+                <span class="text-primary font-medium">文化符号</span>
+                <a href="#" class="text-primary hover:text-primary/80 flex items-center gap-1">
+                  了解更多 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 民间工艺 -->
+          <div class="bg-white rounded-xl overflow-hidden shadow-lg hover-scale group">
+            <div class="relative h-60 overflow-hidden">
+              <img src="https://picsum.photos/id/1038/800/600" alt="藏族民间工艺" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+              <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent"></div>
+              <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">民间工艺</h3>
+            </div>
+            <div class="p-6">
+              <p class="text-gray-600 mb-4">
+                藏族民间工艺精湛，包括金银器制作、木雕、石雕、陶器等。这些手工艺品不仅具有实用价值，更是艺术的杰作，体现了藏族人民的智慧和创造力。
+              </p>
+              <div class="flex items-center justify-between">
+                <span class="text-primary font-medium">匠心传承</span>
+                <a href="#" class="text-primary hover:text-primary/80 flex items-center gap-1">
+                  了解更多 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 传统美食 -->
+          <div class="bg-white rounded-xl overflow-hidden shadow-lg hover-scale group">
+            <div class="relative h-60 overflow-hidden">
+              <img src="https://picsum.photos/id/1040/800/600" alt="藏族传统美食" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+              <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent"></div>
+              <h3 class="absolute bottom-4 left-4 text-white text-xl font-bold">传统美食</h3>
+            </div>
+            <div class="p-6">
+              <p class="text-gray-600 mb-4">
+                藏族传统美食独具特色，包括酥油茶、糌粑、青稞酒、牦牛肉等。这些美食不仅满足了人们的味蕾，更是适应高原环境的智慧结晶。
+              </p>
+              <div class="flex items-center justify-between">
+                <span class="text-primary font-medium">舌尖上的文化</span>
+                <a href="#" class="text-primary hover:text-primary/80 flex items-center gap-1">
+                  了解更多 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 家乡美景 -->
+    <section id="landscape" class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <span class="text-primary font-semibold">雪域风光</span>
+          <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold mt-2 mb-6">西藏美景</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto text-lg">
+            西藏，这片神奇的土地，拥有壮丽的自然风光。高耸入云的雪山、湛蓝的湖泊、广袤的草原和神秘的峡谷，构成了一幅幅令人叹为观止的画卷。
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="group relative overflow-hidden rounded-xl cursor-pointer aspect-[4/3] hover-scale">
+            <img src="https://picsum.photos/id/1039/800/600" alt="布达拉宫" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div class="p-6">
+                <h3 class="text-white text-xl font-bold mb-2">布达拉宫</h3>
+                <p class="text-white/80">世界文化遗产，西藏的象征</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="group relative overflow-hidden rounded-xl cursor-pointer aspect-[4/3] hover-scale">
+            <img src="https://picsum.photos/id/1041/800/600" alt="纳木错" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div class="p-6">
+                <h3 class="text-white text-xl font-bold mb-2">纳木错</h3>
+                <p class="text-white/80">西藏三大圣湖之一</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="group relative overflow-hidden rounded-xl cursor-pointer aspect-[4/3] hover-scale">
+            <img src="https://picsum.photos/id/1042/800/600" alt="珠穆朗玛峰" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div class="p-6">
+                <h3 class="text-white text-xl font-bold mb-2">珠穆朗玛峰</h3>
+                <p class="text-white/80">世界最高峰，地球之巅</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="group relative overflow-hidden rounded-xl cursor-pointer aspect-[4/3] hover-scale">
+            <img src="https://picsum.photos/id/1043/800/600" alt="雅鲁藏布大峡谷" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div class="p-6">
+                <h3 class="text-white text-xl font-bold mb-2">雅鲁藏布大峡谷</h3>
+                <p class="text-white/80">世界最深的峡谷</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="group relative overflow-hidden rounded-xl cursor-pointer aspect-[4/3] hover-scale">
+            <img src="https://picsum.photos/id/1044/800/600" alt="羊卓雍错" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div class="p-6">
+                <h3 class="text-white text-xl font-bold mb-2">羊卓雍错</h3>
+                <p class="text-white/80">西藏三大圣湖之一</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="group relative overflow-hidden rounded-xl cursor-pointer aspect-[4/3] hover-scale">
+            <img src="https://picsum.photos/id/1045/800/600" alt="羌塘草原" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <div class="p-6">
+                <h3 class="text-white text-xl font-bold mb-2">羌塘草原</h3>
+                <p class="text-white/80">中国最大的高原草原</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 我的故事 -->
+    <section id="story" class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <span class="text-primary font-semibold">成长历程</span>
+          <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold mt-2 mb-6">我的故事</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto text-lg">
+            每一个人都有自己独特的故事，我的故事与西藏这片土地紧密相连。从雪域高原到西南民族大学，这一路上有欢笑，有泪水，有收获，也有成长。
+          </p>
+        </div>
+        
+        <div class="max-w-3xl mx-auto">
+          <div class="space-y-12">
+            <!-- 童年 -->
+            <div class="relative">
+              <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white z-10">
+                <i class="fa-solid fa-child"></i>
+              </div>
+              <div class="ml-16 pl-8 border-l-2 border-primary/30">
+                <h3 class="text-2xl font-bold mb-4">雪域童年</h3>
+                <p class="text-gray-600 mb-4 text-lg">
+                  我出生在西藏拉萨的一个普通家庭，从小在布达拉宫脚下长大。童年的记忆里，是湛蓝的天空、洁白的云朵、飘扬的经幡和慈祥的长辈。
+                </p>
+                <p class="text-gray-600 mb-6 text-lg">
+                  父母都是朴实的藏族人，他们教会了我许多藏族传统文化和价值观。我记得小时候，每年藏历新年，全家人都会一起准备丰盛的食物，穿上传统服饰，去寺庙祈福。那些温馨的场景，至今仍历历在目。
+                </p>
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                  <!-- 替换为男性或中性图片 -->
+                  <img src="https://picsum.photos/id/1013/400/300" alt="童年照片" class="rounded-lg hover-scale">
+                  <img src="https://picsum.photos/id/1014/400/300" alt="童年照片" class="rounded-lg hover-scale">
+                </div>
+                <p class="text-gray-600 text-lg">
+                  西藏的自然风光也深深地影响了我。我常常和小伙伴们一起在草原上玩耍，看牦牛悠闲地吃草，听鸟儿欢快地歌唱。那些美好的时光，让我对家乡充满了热爱。
+                </p>
+              </div>
+            </div>
+            
+            <!-- 求学之路 -->
+            <div class="relative">
+              <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white z-10">
+                <i class="fa-solid fa-book"></i>
+              </div>
+              <div class="ml-16 pl-8 border-l-2 border-primary/30">
+                <h3 class="text-2xl font-bold mb-4">求学之路</h3>
+                <p class="text-gray-600 mb-4 text-lg">
+                  我在拉萨完成了小学和中学的学业。在学校里，我努力学习，不仅掌握了扎实的基础知识，还积极参加各种课外活动，特别是与藏族文化相关的活动。
+                </p>
+                <p class="text-gray-600 mb-6 text-lg">
+                  高中时期，我参加了学校的藏文书法比赛和藏戏表演，这些经历让我更加深入地了解了藏族文化的博大精深。我也因此获得了许多奖项和荣誉，这让我更加坚定了传承和弘扬藏族文化的决心。
+                </p>
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                  <!-- 替换为男性或中性图片 -->
+                  <img src="https://picsum.photos/id/1015/400/300" alt="求学照片" class="rounded-lg hover-scale">
+                  <img src="https://picsum.photos/id/1016/400/300" alt="求学照片" class="rounded-lg hover-scale">
+                </div>
+                <p class="text-gray-600 text-lg">
+                  2023年，我以优异的成绩考入了西南民族大学，开始了我的大学生活。离开家乡，来到陌生的城市，我面临着许多挑战，但我始终没有忘记自己的初心和使命。
+                </p>
+              </div>
+            </div>
+            
+            <!-- 大学生活 -->
+            <div class="relative">
+              <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white z-10">
+                <i class="fa-solid fa-university"></i>
+              </div>
+              <div class="ml-16 pl-8 border-l-2 border-primary/30">
+                <h3 class="text-2xl font-bold mb-4">大学生活</h3>
+                <p class="text-gray-600 mb-4 text-lg">
+                  在西南民族大学，我选择了计算机科学与技术专业。这个专业不仅能够让我学习到先进的技术和知识，还能够让我将这些技术应用到藏族文化的传承和发展中。
+                </p>
+                <p class="text-gray-600 mb-6 text-lg">
+                  大学期间，我积极参与各种社团活动，成为了学校藏族文化协会的一员。在协会里，我和其他藏族同学一起组织了许多活动，如藏族文化展览、藏戏表演、传统服饰展示等，让更多的人了解和认识藏族文化。
+                </p>
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                  <!-- 替换为男性或中性图片 -->
+                  <img src="https://picsum.photos/id/1018/400/300" alt="大学生活照片" class="rounded-lg hover-scale">
+                  <img src="https://picsum.photos/id/1019/400/300" alt="大学生活照片" class="rounded-lg hover-scale">
+                </div>
+                <p class="text-gray-600 text-lg">
+                  我也结识了许多来自不同民族的朋友，我们相互学习，相互交流，增进了彼此之间的了解和友谊。这段经历让我深刻地体会到了中华民族大家庭的温暖和团结。
+                </p>
+              </div>
+            </div>
+            
+            <!-- 未来展望 -->
+            <div class="relative">
+              <div class="absolute left-0 top-0 w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white z-10">
+                <i class="fa-solid fa-rocket"></i>
+              </div>
+              <div class="ml-16 pl-8 border-l-2 border-primary/30">
+                <h3 class="text-2xl font-bold mb-4">未来展望</h3>
+                <p class="text-gray-600 mb-4 text-lg">
+                  毕业后，我希望能够回到家乡，用我所学的知识和技能，为西藏的发展贡献自己的一份力量。我希望能够参与到藏族文化的数字化保护和传承工作中，让更多的人了解和欣赏藏族文化的魅力。
+                </p>
+                <p class="text-gray-600 text-lg">
+                  我也希望能够促进不同民族之间的交流和合作，让更多的人了解西藏，了解藏族文化。我相信，只要我们携手共进，就一定能够创造一个更加美好的未来。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 联系我 -->
+    <section id="contact" class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div>
+            <span class="text-primary font-semibold">保持联系</span>
+            <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-bold mt-2 mb-6">联系旦增</h2>
+            <p class="text-gray-600 mb-8 text-lg">
+              如果你对西藏文化、藏族传统艺术或者我的个人经历感兴趣，欢迎与我联系。我很乐意与你分享我的故事和见解，也希望能够听到你的想法和建议。
+            </p>
+            
+            <div class="space-y-6 mb-8">
+              <div class="flex items-start space-x-4">
+                <div class="bg-primary/10 p-3 rounded-full text-primary">
+                  <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold mb-1">电子邮箱</h3>
+                  <p class="text-gray-600">2023308094447@swun.edu.cn</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start space-x-4">
+                <div class="bg-primary/10 p-3 rounded-full text-primary">
+                  <i class="fa-solid fa-phone"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold mb-1">电话号码</h3>
+                  <p class="text-gray-600">+86 138-xxxx-xxxx</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start space-x-4">
+                <div class="bg-primary/10 p-3 rounded-full text-primary">
+                  <i class="fa-solid fa-map-marker-alt"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold mb-1">学校地址</h3>
+                  <p class="text-gray-600">四川省成都市武侯区一环路南四段16号<br>西南民族大学</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start space-x-4">
+                <div class="bg-primary/10 p-3 rounded-full text-primary">
+                  <i class="fa-solid fa-home"></i>
+                </div>
+                <div>
+                  <h3 class="text-lg font-bold mb-1">家乡地址</h3>
+                  <p class="text-gray-600">西藏自治区拉萨市城关区<br>八廓街附近</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="flex space-x-4">
+              <a href="#" class="bg-primary hover:bg-primary/90 text-white p-3 rounded-full transition-all hover:shadow-lg">
+                <i class="fa-brands fa-weixin"></i>
+              </a>
+              <a href="#" class="bg-primary hover:bg-primary/90 text-white p-3 rounded-full transition-all hover:shadow-lg">
+                <i class="fa-brands fa-weibo"></i>
+              </a>
+              <a href="#" class="bg-primary hover:bg-primary/90 text-white p-3 rounded-full transition-all hover:shadow-lg">
+                <i class="fa-brands fa-qq"></i>
+              </a>
+              <a href="#" class="bg-primary hover:bg-primary/90 text-white p-3 rounded-full transition-all hover:shadow-lg">
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+          
+          <div>
+            <div class="bg-white p-8 rounded-xl shadow-lg">
+              <h3 class="text-2xl font-bold mb-6">给我留言</h3>
+              <form class="space-y-6">
+                <div>
+                  <label for="name" class="block text-gray-700 font-medium mb-2">你的姓名</label>
+                  <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+                
+                <div>
+                  <label for="email" class="block text-gray-700 font-medium mb-2">电子邮箱</label>
+                  <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+                
+                <div>
+                  <label for="subject" class="block text-gray-700 font-medium mb-2">主题</label>
+                  <input type="text" id="subject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+                
+                <div>
+                  <label for="message" class="block text-gray-700 font-medium mb-2">留言内容</label>
+                  <textarea id="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+                </div>
+                
+                <button type="submit" class="w-full bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg transition-all hover:shadow-lg">
+                  发送留言
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="bg-dark text-white pt-16 pb-8">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        <div>
+          <div class="flex items-center space-x-2 mb-6">
+            <span class="text-xl font-bold text-primary font-tibetan">བསྟན་འཛིན།</span>
+            <span class="text-xl font-bold text-primary">旦增</span>
+          </div>
+          <p class="text-gray-400 mb-6">
+            来自西藏的藏族青年，现就读于西南民族大学。热爱藏族文化，致力于传承和弘扬民族传统。
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa-brands fa-weibo"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa-brands fa-wechat"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa-brands fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-bold mb-6">快速链接</h3>
+          <ul class="space-y-3">
+            <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">关于我</a></li>
+            <li><a href="#culture" class="text-gray-400 hover:text-white transition-colors">西藏文化</a></li>
+            <li><a href="#landscape" class="text-gray-400 hover:text-white transition-colors">家乡美景</a></li>
+            <li><a href="#story" class="text-gray-400 hover:text-white transition-colors">我的故事</a></li>
+            <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors">联系我</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-bold mb-6">西藏文化</h3>
+          <ul class="space-y-3">
+            <li>
